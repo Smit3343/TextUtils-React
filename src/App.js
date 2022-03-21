@@ -1,25 +1,55 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/Navbar';
+import PropTypes from 'prop-types';
+import TextForm from './components/TextForm';
+import About from './components/About';
+import { useState } from 'react';
+import Alert from './components/Alert';
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
 
-function App() {
+export default function App() {
+  const [mode, setMode] = useState('light');
+  const [alert, setalert] = useState(null);
+
+  const showAlert=(msg,type)=>{
+    setalert({
+      message:msg,
+      type:type
+    });
+    setTimeout(() => {
+      setalert(null)
+    }, 2000);
+  }
+
+  const toggleMode = () => {
+    if (mode === 'light') {
+      setMode('dark');
+      document.body.style.backgroundColor = 'black';
+    }
+    else {
+      setMode('light');
+      document.body.style.backgroundColor = 'white';
+    }
+
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} aboutText="About us" />
+      <div className='container my-3'>
+        <Alert alert={alert} />
+        <Routes>
+          <Route exact path="/about" element={<About/>}/>
+          <Route exact path="/" element={<TextForm mode={mode} showAlert={showAlert} heading="Enter The Text to Analyze Below" />}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
-
-export default App;
+Navbar.propTypes = {
+  title: PropTypes.string.isRequired,
+  aboutText: PropTypes.string.isRequired
+}
+Navbar.defaultProps = {
+  title: "set title here",
+  aboutText: "About Text here"
+}
