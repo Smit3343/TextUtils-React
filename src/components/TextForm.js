@@ -59,8 +59,8 @@ export default function TextForm(props) {
 
     const [text, setText] = useState("");
     const countWord = () => {
-        return text.replace(/[\t\n\r]/gm, " ").split(' ')
-            .filter((n) => n !== '').length;
+        return text.split(/\s+/)
+            .filter((n) => n.length!==0).length;
     }
     return (
         <>
@@ -71,16 +71,16 @@ export default function TextForm(props) {
                         <textarea style={{ backgroundColor: props.mode === 'light' ? 'white' : 'black', color: props.mode === 'light' ? 'black' : 'white' }} placeholder='Enter Text Here' className="form-control" onChange={handleChangeClick} value={text} rows="8" id="textArea" />
                     </div>
                 </form>
-                <button className="btn btn-primary mx-2" onClick={UpClick}>Uppercase</button>
-                <button className="btn btn-primary mx-2" onClick={LowerClick}>Lowercase</button>
-                <button className="btn btn-primary mx-2" onClick={CapitalizeClick}>Capitalize</button>
-                <button className="btn btn-primary mx-2" onClick={ClearClick}>Clear</button>
-                <button className="btn btn-primary mx-2" onClick={CopyClick}>Copy To Clipboard</button>
-                <button className="btn btn-primary mx-2" onClick={removeExtraSpace}>Remove Extra Space</button>
+                <button className="btn btn-primary mx-2 my-2" onClick={UpClick}>Uppercase</button>
+                <button className="btn btn-primary mx-2 my-2" onClick={LowerClick}>Lowercase</button>
+                <button className="btn btn-primary mx-2 my-2" onClick={CapitalizeClick}>Capitalize</button>
+                <button className="btn btn-primary mx-2 my-2" onClick={ClearClick}>Clear</button>
+                <button className="btn btn-primary mx-2 my-2" onClick={CopyClick}>Copy To Clipboard</button>
+                <button className="btn btn-primary mx-2 my-2" onClick={removeExtraSpace}>Remove Extra Space</button>
             </div>
             <div className={`container my-3 text-${props.mode === 'light' ? 'dark' : 'light'}`}>
                 <h1>Text Summary</h1>
-                <p> {text.split('\n').length} lines, {countWord()} words and {text.length} characters</p>
+                <p> {text.split('\n').filter((e)=>e.length!==0).length} lines, {countWord()} words and {text.length} characters</p>
             </div>
         </>
     )

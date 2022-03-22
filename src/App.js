@@ -33,16 +33,19 @@ export default function App() {
 
   }
   return (
-    <BrowserRouter>
+    <>
+     <BrowserRouter>
       <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} aboutText="About us" />
+      <Alert alert={alert} />
+      
       <div className='container my-3'>
-        <Alert alert={alert} />
         <Routes>
-          <Route exact path="/about" element={<About/>}/>
+          <Route exact path="/about" element={<About mode={mode}/>}/>
           <Route exact path="/" element={<TextForm mode={mode} showAlert={showAlert} heading="Enter The Text to Analyze Below" />}/>
         </Routes>
       </div>
-    </BrowserRouter>
+     </BrowserRouter>
+    </>
   );
 }
 Navbar.propTypes = {
